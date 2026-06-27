@@ -111,4 +111,14 @@ class CuponControllerIT {
         mockMvc.perform(get("/api/v1/cupones/" + guardado.getIdCupon()))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void testCodigoDuplicadoEnIntegracion() throws Exception {
+    cuponRepository.save(new Cupon(null, "REPETIDO", 10.0, true, null));
+    Cupon segundo = new Cupon(null, "REPETIDO", 20.0, true, null);
+    mockMvc.perform(post("/api/v1/cupones")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(segundo)))
+            .andExpect(status().isConflict());
+}
 }
