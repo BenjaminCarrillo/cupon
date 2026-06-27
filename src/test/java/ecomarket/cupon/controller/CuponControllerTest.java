@@ -158,4 +158,18 @@ public class CuponControllerTest {
         mockMvc.perform(delete("/api/v1/cupones/1"))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+void testGuardarCodigoDuplicadoDevuelve409() throws Exception {
+    Cupon nuevo = new Cupon(null, "VERANO10", 10.0, true, null);
+
+    // Simulamos que el service falla (p. ej. codigo unico duplicado)
+    Mockito.when(cuponService.guardar(any(Cupon.class)))
+            .thenThrow(new RuntimeException("codigo duplicado"));
+
+    mockMvc.perform(post("/api/v1/cupones")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(nuevo)))
+            .andExpect(status().isConflict());   // 409
+}
 }
