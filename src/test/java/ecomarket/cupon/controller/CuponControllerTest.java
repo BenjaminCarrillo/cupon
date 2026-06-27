@@ -1,9 +1,9 @@
 package ecomarket.cupon.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ecomarket.cupon.model.Cupon;
 import ecomarket.cupon.service.CuponService;
+import tools.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
